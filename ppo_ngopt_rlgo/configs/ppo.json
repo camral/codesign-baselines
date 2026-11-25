@@ -1,0 +1,15 @@
+{
+  "environment_factory": "ppo_ngopt_rlgo.examples:make_cartpole",
+  "environment_kwargs": {},
+  "policy": "MlpPolicy",
+  "policy_kwargs": {},
+  "total_timesteps": 10000,
+  "learning_rate": 0.0003,
+  "n_steps": 256,
+  "batch_size": 64,
+  "gamma": 0.99,
+  "seed": 0,
+  "device": "auto",
+  "model_path": "artifacts/ppo/model",
+  "evaluation_episodes": 10
+}

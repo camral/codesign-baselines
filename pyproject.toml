@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codesign-baselines"
+version = "0.0.1"
+description = "Reusable optimization and reinforcement-learning baselines for robot co-design."
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+license-files = ["LICENSE"]
+# The dependencies of the FastTD3 + CMA-ES trainer (python -m fasttd3_cmaes.gym_train).
+# Codesign Gym, MuJoCo and mujoco_warp are left out on purpose: install Codesign Gym
+# separately (see README.md), because the Shape-shifting Hand envs need the mujoco_warp
+# fork and a pinned MuJoCo that Codesign Gym's own requirements would replace.
+# requirements.txt installs the full stack for every baseline.
+dependencies = [
+    # torch 2.15 fails CUDA-graph capture in the FastTD3 update; 2.13.0 matches requirements.txt.
+    "torch==2.13.0",
+    "tensordict>=0.7.2",
+    "numpy>=2.0",
+    "scipy",
+    "gymnasium>=1.0.0",
+    "nevergrad>=1.0.12",
+    "tyro",
+    "pyyaml>=6.0.2",
+    "tqdm>=4.67.1",
+    "imageio>=2.37.0",
+    "imageio-ffmpeg>=0.6.0",
+    "wandb>=0.19.11",
+    "trimesh>=4.7.4",
+    # CBD-SA design codec (fasttd3_cmaes/cbdsa_codec.py).
+    "structural-affinity @ git+https://github.com/camral/structural-affinity.git",
+]
+
+[project.urls]
+Repository = "https://github.com/camral/codesign-baselines"
+
+# The baselines are top-level packages in the repository root, except FastTD3, which lives in
+# fasttd3_rl/fast_td3. After an editable install, `python -m fasttd3_cmaes.gym_train` (and the
+# other entry points) run from any directory.
+[tool.setuptools.packages.find]
+where = [".", "fasttd3_rl"]
+include = [
+    "common*",
+    "cmaes_evolutionary*",
+    "fasttd3_cmaes*",
+    "ppo_ngopt_rlgo*",
+    "ppo_llm_rlgo*",
+    "loki*",
+    "fast_td3*",
+]
+exclude = ["*.tests", "*.tests.*"]
+
+[tool.setuptools]
+py-modules = ["pokemon_common"]

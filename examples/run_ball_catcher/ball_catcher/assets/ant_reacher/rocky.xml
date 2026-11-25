@@ -1,0 +1,77 @@
+<mujoco model="ant">
+  <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
+
+  <default>
+    <joint armature="1" damping="1" limited="true"/>
+    <geom contype="1" conaffinity="0" size="0.15" condim="3" density="10.0" friction="1 0.5 0.5" rgba="0.56 0.48 0.42 1"/>
+  </default>
+
+  <worldbody>
+    <body name="base" pos="0 0 1.25">
+      <freejoint/>
+      <!-- <geom name="base_geom" pos="0 0 -0.15" size="0.25 0.1" type="capsule"/> -->
+      <geom name="base_geom4" pos="0 0 -0.18" size="0.42 0.42 0.58" type="ellipsoid"/>
+      <geom name="base_geom6" fromto="0 0 -0.18 0 0 0.13" size="0.42" type="cylinder"/>
+
+      <!-- rockylike body -->
+      <!-- <body name="body" pos="0 0 -0.10">
+        <geom name="base_geom4" pos="0 0 -0.08" size="0.42 0.42 0.58" type="ellipsoid"/>
+        <body name="hat" pos="0 0 0.13" >
+          <geom name="base_geom2" pos="0 0 0.2" size="0.42 0.42 0.22" type="ellipsoid" rgba=" 1 0 0 1"/>
+          <geom name="base_geom5" pos="0 0 0" size="0.42 0.20" type="cylinder" rgba=" 1 0 0 1"/>
+        </body>
+      </body> -->
+
+      <body name="front_left_leg_offsettable_y_pos_equ1" pos="0.1 0.52 0">
+        <!-- <geom fromto="-0.1 -0.52 0.0 0.1 -0.32 0" name="aux_fl_geom" type="capsule"/> -->
+        <joint axis="0 0 1" name="hip_fl" pos="0.0 0.0 0.0" range="-45 45" type="hinge"/>
+        <geom fromto="0.0 0.0 0.0 0 0.47 -0.33" name="left_leg_geom" type="capsule"/>
+        <body name="fl_knee_offsettable_z_pos_equ0" pos="0 0.47 -0.33">
+          <joint axis="1 0 0" name="ankle_fl" pos="0.0 0.0 0.0" range="0 60" type="hinge"/>
+          <geom fromto="0.0 0.0 0.0 0 0 -0.71" name="left_ankle_geom" type="capsule"/>
+        </body>
+      </body>
+
+
+      <body name="front_right_leg_offsettable_y_pos_equ1" pos="0.1 -0.52 0">
+        <!-- <geom fromto="-0.1 0.52 0.0 0.1 0.32 0" name="aux_fr_geom" type="capsule"/> -->
+        <joint axis="0 0 1" name="hip_fr" pos="0.0 0.0 0.0" range="-45 45" type="hinge"/>
+        <geom fromto="0.0 0.0 0.0 0 -0.47 -0.33" name="right_leg_geom" type="capsule"/>
+        <body name="fr_knee_offsettable_z_pos_equ0" pos="0 -0.47 -0.33">
+          <joint axis="-1 0 0" name="ankle_fr" pos="0.0 0.0 0.0" range="0 60" type="hinge"/>
+          <geom fromto="0.0 0.0 0.0 0 0 -0.71" name="right_ankle_geom" type="capsule"/>
+        </body>
+      </body>
+
+
+      <body name="back_leg_offsettable_x_pos_equ1" pos="-0.52 -0 0">
+        <!-- <geom fromto="-0.1 0.52 0.0 0.1 0.32 0" name="aux_fl_geom" type="capsule"/> -->
+        <joint axis="0 0 1" name="hip_b" pos="0.0 0.0 0.0" range="-45 45" type="hinge"/>
+        <geom fromto="0.0 0.0 0.0 -0.47 -0 -0.33" name="back_leg_geom" type="capsule"/>
+        <body name="back_knee_offsettable_z_pos_equ0" pos="-0.47 -0 -0.33">
+          <joint axis="0 1 0" name="ankle_b" pos="0.0 0.0 0.0" range="0 60" type="hinge"/>
+          <geom fromto="0.0 0.0 0.0 0 0 -0.71" name="third_ankle_geom" type="capsule"/>
+        </body>
+      </body>
+
+
+    </body>
+  </worldbody>
+
+  <actuator>
+    <velocity ctrlrange="-6 6" forcerange="-60 60" kv="200" joint="hip_fl"/>
+    <velocity ctrlrange="-6 6" forcerange="-60 60" kv="200" joint="ankle_fl"/>
+    <velocity ctrlrange="-6 6" forcerange="-60 60" kv="200" joint="hip_fr"/>
+    <velocity ctrlrange="-6 6" forcerange="-60 60" kv="200" joint="ankle_fr"/>
+    <velocity ctrlrange="-6 6" forcerange="-60 60" kv="200" joint="hip_b"/>
+    <velocity ctrlrange="-6 6" forcerange="-60 60" kv="200" joint="ankle_b"/>
+  </actuator>
+
+  <keyframe>
+    <key name="init_pos2" qpos="0 0 2   1 0 0 0   0.1 0.5   0.1 0.5   0.1 0.5" ctrl="0 0 0 0 0 0"/>
+    <!-- <key name="init_pos2" qpos="0.1 0.5  0.1 0.5 0.1 0.5 " ctrl="0 0 0 0 0 0"/> -->
+  </keyframe>
+
+<!-- 0.0 0.0 0.55 1.0 0.0 0.0 0.0 -->
+
+</mujoco>

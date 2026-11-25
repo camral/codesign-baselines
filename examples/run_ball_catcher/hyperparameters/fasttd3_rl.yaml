@@ -1,0 +1,77 @@
+# Hyperparameters for run_fasttd3_rl.py
+#
+# Defaults follow the original implementation of the method:
+#   fasttd3_rl/fast_td3/hyperparams.py:BaseArgs
+# (the task-agnostic FastTD3 defaults; BallCatcher has no dedicated Args
+# subclass upstream, so BaseArgs is the correct reference).
+#
+# fasttd3_rl/fast_td3/train.py increments `global_step` once per outer-loop
+# iteration (each iteration steps `num_envs` environments in parallel), and
+# run_fasttd3_rl.py mirrors that same loop structure, so these values port
+# over directly with the same meaning/units as upstream.
+
+# RNG seed.
+seed: 0
+
+# CUDA device index (BaseArgs.device_rank). cuda/torch_deterministic already
+# match upstream and stay as plain CLI flags in the run script.
+device_rank: 0
+
+# Rollout / replay
+num_envs: 128
+eval_num_envs: 128          # BaseArgs.num_eval_envs
+total_timesteps: 150000
+learning_starts: 10
+buffer_size: 51200          # BaseArgs: 1024 * 50
+batch_size: 32768
+num_updates: 2
+policy_frequency: 2
+num_steps: 1
+gamma: 0.99
+tau: 0.1
+policy_noise: 0.001
+noise_clip: 0.5
+
+# Architecture
+actor_hidden_dim: 512
+critic_hidden_dim: 1024
+init_scale: 0.01
+std_min: 0.001
+std_max: 0.4
+sim_type: ""
+sim_dimension: 64
+actor_seq_len: 8
+critic_seq_len: 8
+num_atoms: 101
+v_min: -250.0
+v_max: 250.0
+
+# Optimization
+actor_learning_rate: 3.0e-4
+critic_learning_rate: 3.0e-4
+actor_learning_rate_end: 3.0e-4
+critic_learning_rate_end: 3.0e-4
+weight_decay: 0.1
+max_grad_norm: 0.0
+use_grad_norm_clipping: false
+use_cdq: true
+disable_bootstrap: false
+
+# Precision (BaseArgs.amp_dtype; amp/cuda/torch_deterministic already match
+# upstream and stay as plain CLI flags in the run script)
+amp_dtype: bf16
+
+# System & environment specifics
+obs_normalization: true
+reward_normalization: false
+compile: true
+compile_mode: reduce-overhead
+measure_burnin: 3
+eval_interval: 5000
+save_interval: 5000
+render_interval: 5000
+
+# Not present upstream (BaseArgs has no diagnostics/render_max_steps
+# knobs) -- kept at this repo's existing defaults.
+diagnostics: false
+render_max_steps: 1000

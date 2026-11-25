@@ -1,0 +1,92 @@
+<!-- Dimensions are based on the LEAP hand's palm and index finger. -->
+<!-- Fingertip shape is based on the LEAP hand's generic fingertips. -->
+<!-- Link masses are based on the palm, MCP, DIP and fingertip bodies from the LEAP hand XML.-->
+
+<mujoco model="base">
+  <compiler angle="radian" meshdir="meshes" autolimits="true"/>
+
+  <option integrator="implicitfast" />
+
+  <default>
+
+    <default class="finger_actuator">
+      <position kp="10" dampratio="1" inheritrange="1" forcerange="-50 50"/>
+    </default>
+
+    <!-- if updating the lengths, update the body positions too! -->
+    <default class="palm">
+      <geom type="capsule" fromto="0.03765 0 0 -0.03765 0 0" size="0.01" mass="0.235"/>
+    </default>
+    <default class="seg1">
+      <geom type="capsule" fromto="0 0 0 0 0 -0.0531" size="0.01" mass="0.044"/>
+    </default>
+    <default class="seg2">
+      <geom type="capsule" fromto="0 0 0 0 0 -0.0361" size="0.0075" mass="0.037"/>
+    </default>
+    <default class="seg3">
+      <!-- no collision, remove if short on memory! -->
+      <geom type="capsule" fromto="0 0 0 0 0 -0.0345" size="0.005" mass="0.016" contype="0" conaffinity="0"/>
+    </default>
+
+  </default>
+
+  <asset>
+    <hfield name="ftip_l" nrow="10" ncol="10" size="0.015 0.012 0.02 0.02"/>
+    <hfield name="ftip_r" nrow="10" ncol="10" size="0.015 0.012 0.02 0.02"/>
+  </asset>
+
+  <worldbody>
+    <body name="palm" pos="0 0 0">
+      <joint name="joint_x" type="slide" axis="1 0 0" range="-1 1"/>
+      <joint name="joint_z" type="slide" axis="0 0 1" range="0 1"/>
+      <joint name="joint_th" axis="0 1 0"/>
+      <geom class="palm"/>
+      <site name="site_x" type="box" pos="0.1 0 0" size="0.1 0.005 0.005" rgba="1 0 0 0.3"/>
+      <site name="site_y" type="box" pos="0 0.1 0" size="0.005 0.1 0.005" rgba="0 1 0 0.3"/>
+
+      <body name="finger_l1" pos="-0.03765 0 0">
+        <joint name="joint_l1" pos="0 0 0" axis="0 1 0" range="-1.57 1.57"/>
+        <geom class="seg1"/>
+        <body name="finger_l2" pos="0 0 -0.0531">
+          <joint name="joint_l2" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+          <geom class="seg2"/>
+          <body name="finger_l3" pos="0 0 -0.0361">
+            <joint name="joint_l3" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+            <geom class="seg3"/>
+            <geom name="ftip_l" type="hfield" hfield="ftip_l" pos="0.01 0 -0.0345" quat="0.707107 0 0.707107 0"/>
+          </body>
+        </body>
+      </body>
+
+      <body name="finger_r1" pos="0.03765 0 0">
+        <joint name="joint_r1" pos="0 0 0" axis="0 1 0" range="-1.57 1.57"/>
+        <geom class="seg1"/>
+        <body name="finger_r2" pos="0 0 -0.0531">
+          <joint name="joint_r2" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+          <geom class="seg2"/>
+          <body name="finger_r3" pos="0 0 -0.0361">
+            <joint name="joint_r3" pos="0 0 0" axis="0 1 0" range="-3.14 3.14"/>
+            <geom class="seg3"/>
+            <geom name="ftip_r" type="hfield" hfield="ftip_r" pos="-0.01 0 -0.0345" quat="0.707107 0 -0.707107 0"/>
+          </body>
+        </body>
+      </body>
+
+    </body>
+  </worldbody>
+
+  <actuator>
+    <position name="act_x" joint="joint_x" kp="100" ctrlrange="-0.5 0.5" forcerange="-500 500"  dampratio="1"/>
+    <position name="act_z" joint="joint_z" kp="1000" ctrlrange="0 0.5" forcerange="-500 500" dampratio="1"/>
+    <position name="act_th" joint="joint_th" kp="100" ctrlrange="-1 1" forcerange="-500 500" dampratio="1"/>
+
+    <position class="finger_actuator" name="act_l1" joint="joint_l1"/>
+    <position class="finger_actuator" name="act_l2" joint="joint_l2"/>
+    <position class="finger_actuator" name="act_l3" joint="joint_l3"/>
+
+    <position class="finger_actuator" name="act_r1" joint="joint_r1"/>
+    <position class="finger_actuator" name="act_r2" joint="joint_r2"/>
+    <position class="finger_actuator" name="act_r3" joint="joint_r3"/>
+  </actuator>
+  
+</mujoco>

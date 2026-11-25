@@ -1,0 +1,34 @@
+<!-- Normal Tidybot. Equivalent to base_arx5_ver.xml from tidybot2_camral. -->
+
+<mujoco model="base">
+  <compiler angle="radian" meshdir="meshes" autolimits="true"/>
+
+  <option integrator="implicitfast" />
+
+  <default>
+    <default class="visual">
+      <geom contype="0" conaffinity="0" group="2"/>
+    </default>
+    <default class="collision">
+      <geom group="3"/>
+    </default>
+  </default>
+
+  <worldbody>
+    <body name="base_link">
+      <!-- no inertial tag since the pusher geoms add their own inertia -->
+      <joint name="joint_x" type="slide" axis="1 0 0" range="-10 10"/>
+      <joint name="joint_y" type="slide" axis="0 1 0" range="-10 10"/>
+      <joint name="joint_th"/>
+      <geom class="visual" type="box" size="0.05 0.05 0.025" pos="0 0 0.026"/>
+      <site name="site_x" type="box" pos="0.2 0 0" size="0.2 0.05 0.05" rgba="1 0 0 0.3" group="2"/>
+      <site name="site_y" type="box" pos="0 0.2 0" size="0.05 0.2 0.05" rgba="0 1 0 0.3" group="2"/>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <velocity name="joint_x" joint="joint_x" kv="200" ctrlrange="-1 1" forcerange="-60 60" />
+    <velocity name="joint_y" joint="joint_y" kv="200" ctrlrange="-1 1" forcerange="-60 60" />
+    <velocity name="joint_th" joint="joint_th" kv="50" ctrlrange="-1 1" forcerange="-20 20"/>
+  </actuator>
+</mujoco>

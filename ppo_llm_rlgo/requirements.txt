@@ -1,0 +1,4 @@
+# In addition to the repository's PPO+NGOpt dependencies.
+transformers>=4.56.1,<5
+accelerate>=1.10.1
+safetensors>=0.4

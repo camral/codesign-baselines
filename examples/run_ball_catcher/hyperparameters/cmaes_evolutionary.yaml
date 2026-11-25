@@ -1,0 +1,34 @@
+# Hyperparameters for run_cmaes_evolutionary.py
+#
+# Defaults follow the original implementation of the method:
+#   cmaes_evolutionary/config/default.json (loaded via cmaes_evolutionary/args.py)
+#   and the field defaults of cmaes_evolutionary.main.CMAESConfig.
+
+# RNG seed for the CMA-ES search distribution / candidate sampling.
+seed: 0
+
+# Evaluation device: auto, cpu, cuda, cuda:N, or mps.
+device: auto
+
+# Number of design/policy candidates CMA-ES evaluates before stopping.
+budget: 1000
+
+# How many rollouts each candidate is evaluated over (score is the mean).
+evaluation_repeats: 1
+
+# Initial step-size (sigma) scale for the CMA-ES search distribution.
+scale: 1.0
+
+# CMA-ES population size per generation. null lets nevergrad pick it
+# automatically from the search dimension.
+population_size: null
+
+# Use the cheaper diagonal covariance CMA-ES variant.
+diagonal: false
+
+# Use the elitist variant (always keep the best-seen candidate).
+elitist: false
+
+# Bounds of the linear controller's weight/bias search space.
+policy_lower_bound: -1.0
+policy_upper_bound: 1.0

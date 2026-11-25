@@ -1,0 +1,14 @@
+{
+  "variables": [
+    {"name": "length", "lower": 0.1, "upper": 2.0},
+    {"name": "radius", "lower": 0.01, "upper": 0.25},
+    {"name": "gear_ratio", "lower": 1.0, "upper": 20.0}
+  ],
+  "objective": "ppo_ngopt_rlgo.examples:quadratic_design_cost",
+  "objective_kwargs": {"target": 0.5},
+  "budget": 100,
+  "num_workers": 1,
+  "seed": 0,
+  "maximize": false,
+  "result_path": "artifacts/ngopt/result.json"
+}

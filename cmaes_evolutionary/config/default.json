@@ -1,0 +1,19 @@
+{
+  "design_dimension": 4,
+  "policy_dimension": 8,
+  "budget": 1000,
+  "num_workers": 1,
+  "evaluation_repeats": 1,
+  "design_lower_bound": -1.0,
+  "design_upper_bound": 1.0,
+  "design_initial": null,
+  "policy_lower_bound": -1.0,
+  "policy_upper_bound": 1.0,
+  "policy_initial": null,
+  "seed": 0,
+  "scale": 1.0,
+  "population_size": null,
+  "diagonal": false,
+  "elitist": false,
+  "maximize": true
+}

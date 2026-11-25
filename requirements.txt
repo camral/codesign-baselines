@@ -1,0 +1,84 @@
+# One Python 3.12 environment for all simulator-independent baselines.
+
+# Prefer CUDA 13 PyTorch wheels on Linux; other platforms fall back to PyPI.
+--extra-index-url https://download.pytorch.org/whl/cu130
+
+# Local baseline packages
+-e ./fasttd3_rl
+# Install Codesign Gym and the selected simulator dependencies separately.
+# For a sibling checkout: python -m pip install -e ../codesign-gym
+# Codesign Gym's optional Pokemon/F1TENTH integrations have their own setup steps.
+
+# Core ML and deep learning
+torch==2.13.0
+tensordict>=0.7.2
+transformers>=4.56.1
+accelerate>=1.10.1
+
+# Reinforcement learning and optimization
+gymnasium[classic-control]>=1.0.0
+stable-baselines3>=2.3
+nevergrad>=1.0.12
+tyro
+
+# JAX support for Gym and FastTD3
+jax[cuda13]==0.10.2; sys_platform == "linux"
+jax==0.10.2; sys_platform != "linux"
+jaxlib==0.10.2
+
+# Robotics and simulation
+# mujoco_warp comes from the fork's `integration_gjk_fix` branch (
+# matching Codesign Gym's `morphhand` extra), which RotateInHand and HandPickUp
+# need; every other environment runs unchanged on it.
+# The fork does not follow MuJoCo releases, so MuJoCo is pinned to the tested one.
+mujoco==3.14.0
+mujoco-mjx==3.14.0
+mujoco-warp @ git+https://github.com/y-tsvetkov/mujoco_warp.git@integration_gjk_fix
+warp-lang>=1.11.1
+
+# Structural Affinity (CBD-SA design codec used by fasttd3_cmaes/cbdsa_codec.py)
+structural-affinity @ git+https://github.com/camral/structural-affinity.git
+
+# Data and numerics
+numpy==2.4.6
+scipy
+# LOKI: collectors use NumPy/Gymnasium above; frozen latent K-means uses scikit-learn.
+scikit-learn
+
+# Visualization and media
+matplotlib>=3.10.5
+imageio>=2.37.0
+imageio-ffmpeg>=0.6.0
+trimesh>=4.7.4
+pillow>=11.2.1
+
+# Configuration and utilities
+omegaconf>=2.3.0
+pyyaml>=6.0.2
+click>=8.2.1
+tqdm>=4.67.1
+rich>=14.0.0
+
+# Experiment tracking
+wandb>=0.19.11
+tensorboard>=2.20.0
+
+# Numerical optimization
+cma>=4.4.1
+
+# General utilities
+ml-dtypes>=0.5.3
+protobuf>=6.32.0
+requests>=2.32.5
+fsspec>=2025.7.0
+cloudpickle>=3.1.1
+pydantic>=2.11.7
+
+# Development and tests
+pytest>=8.4.1
+pytest-xdist>=3.6.1
+black>=25.1.0
+isort>=6.0.1
+ruff>=0.14.10
+line-profiler>=5.0.0
+mypy-extensions>=1.1.0
